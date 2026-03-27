@@ -4,7 +4,10 @@
   
 </head>
 <body>
-  <button id="predict">Predict</button>
+  <h2>4x4 T/L classifier </h2>
+  <p>Click any cell to toggle it on (1) or off (0).</p>
+  <p>After creating an upright, uppercase T or L, click the Predict button. The perceptron will predict if your pattern looks like an uppercase T or L!</p>
+  <button id="predictButton">Predict</button>
   <p id="output"></p>
 
   <script>
@@ -36,11 +39,19 @@
       let linearroduct_p = np.dot (inputs, weights) + bias '<!-- product multiplication, like we did in python| maybe corroborate ... -->'
       y_pred = this.activation_function( linear_product);
       return y_pred
-    } 
- '   <!-- infrence function from pytorch samples | take the weights after training and put them somewhere here  -->'
-    
+    }
+
+    predictLetter(inputs){
+      predictedResult = predict(inputs);
+      if (predictedResult === "1"){
+        document.getElementById("output").innerHTML = " Prediction: T";
+      } else {
+        document.getElementById("output").innerHTML = " Prediction: L";
+      }
+    }
+
+    document.getElementById("predictButton").addEventListerner("click", predictLetter);
   </script>
-  
   ##still needs dropdown, allowing you to choose T or L
 </body>
   
