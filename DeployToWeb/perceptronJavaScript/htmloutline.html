@@ -8,23 +8,36 @@
   <p id="output"></p>
 
   <script>
+    importedWeights = [ 2.00000000e-02, -1.00000000e-02,  3.10000000e-01,  6.00000000e-02, -7.00000000e-02,  1.70000000e-01,  2.80000000e-01, -1.60000000e-01, 2.20000000e-01,  9.00000000e-02,  1.90000000e-01, -1.00000000e-02, -4.00000000e-02, -3.46944695e-18,  2.00000000e-01, -5.40000000e-01]
     weights = Array(16).fill(0);
-    weights[0] = ??;
-    weights[1] = ??;
-    ...
-    weights[15] = ??;
-    bias = 0.01; 
-    <!-- This value will come from jupiter notebook; they will be constant weights and biases -->
+    weights[0] = 2.00000000e-02;
+    weights[1] = -1.00000000e-02;
+    weights[2] = 3.10000000e-01;
+    weights[3] = 6.00000000e-02;
+    weights[4] = -7.00000000e-02;
+    weights[5] =1.70000000e-01;
+    weights[6] = 2.80000000e-01;
+    weights[7] = -1.60000000e-01;
+    weights[8] = 2.20000000e-01;
+    weights[9] = 9.00000000e-02;
+    weights[10] = 1.90000000e-01;
+    weights[11] = -1.00000000e-02;
+    weights[12] = -4.00000000e-02;
+    weights[13] = -3.46944695e-18;
+    weights[14] = 2.00000000e-01;
+    weights[15] = -5.40000000e-01;
+    bias = -0.46000000000000024; 
+
     activation_function(z) {
-      return z >=0 ? 1 : -1;
+      return z >=0 ? 1 : 0;
     }
     
     predict( inputs ) {
-      let linear_product = np.dot (inputs, weights) + bias <!-- product multiplication, like we did in python| maybe corroborate ... -->
+      let linearroduct_p = np.dot (inputs, weights) + bias '<!-- product multiplication, like we did in python| maybe corroborate ... -->'
       y_pred = this.activation_function( linear_product);
       return y_pred
     } 
-    <!-- infrence function from pytorch samples | take the weights after training and put them somewhere here  -->
+ '   <!-- infrence function from pytorch samples | take the weights after training and put them somewhere here  -->'
     
   </script>
   
