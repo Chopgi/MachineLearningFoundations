@@ -38,17 +38,17 @@
     weights[15] = -5.40000000e-01;
     bias = -0.46000000000000024; 
 
-    activation_function(z) {
+    function activation_function(z) {
       return z >=0 ? 1 : 0;
     }
     
-    predict( inputs ) {
+    function predict( inputs ) {
       let linearroduct_p = np.dot (inputs, weights) + bias;
       y_pred = this.activation_function( linear_product);
       return y_pred
     }
 
-    predictLetter(inputs){
+    function predictLetter(inputs){
       predictedResult = predict(inputs);
       if (predictedResult === "1"){
         document.getElementById("output").innerHTML = " Prediction: T";
@@ -61,7 +61,7 @@
     
     let grid = new Array(16).fill(0);
     
-    renderGrid(){
+    function renderGrid(){
       document.getElementById("buttonGrid").innerHTML = "";
       const table = document.createElement("table");
 
