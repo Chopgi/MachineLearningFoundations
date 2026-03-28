@@ -1,12 +1,19 @@
 <html>
 <head>
-
-  
+  <style>
+      .gridcell {
+          width : 60px;
+          height : 60px;
+          font-Size : 1.2rem;
+          cursor : pointer;
+      }
+  </style>  
 </head>
 <body>
   <h2>4x4 T/L classifier </h2>
   <p>Click any cell to toggle it on (1) or off (0).</p>
   <p>After creating an upright, uppercase T or L, click the Predict button. The perceptron will predict if your pattern looks like an uppercase T or L!</p>
+  <div id="buttonGrid"></div>
   <button id="predictButton">Predict</button>
   <p id="output"></p>
 
@@ -36,7 +43,7 @@
     }
     
     predict( inputs ) {
-      let linearroduct_p = np.dot (inputs, weights) + bias '<!-- product multiplication, like we did in python| maybe corroborate ... -->'
+      let linearroduct_p = np.dot (inputs, weights) + bias;
       y_pred = this.activation_function( linear_product);
       return y_pred
     }
@@ -51,6 +58,39 @@
     }
 
     document.getElementById("predictButton").addEventListerner("click", predictLetter);
+    
+    let grid = new Array(16).fill(0);
+    
+    renderGrid(){
+      document.getElementById("buttonGrid").innerHTML = "";
+      const table = document.createElement("table");
+
+      table.SetAtribute("cellpadding", "0");
+      table.style.borderCollapse = "collapse";
+
+      for (let row = 0; row <4; row++){
+        const tableRow = document.createElement("tr")
+        for (let column = 0; c <4; column++){
+          const index = row*4+column;
+          const tableCell = document.createElement("td");
+          const button = document.createElement("button");
+          button.textContent = grid[index]; //to fill button's text with its corresponding 1 or 0 value
+          button.className = "gridCell";
+
+          button.onclick = (function(i){
+            return function(){
+              grid[i] = grid[i] === 1 ? 0 : 1;
+              render();
+            }
+          })(index);
+          tableCell.appendChild(button);
+          tableRow.appendChild(tableCell); 
+        }
+        table.appendChild(tableRow);
+      }
+      document.getElementById("buttonGrid").appendChild(table);
+    }
+    renderGrid();
   </script>
   ##still needs dropdown, allowing you to choose T or L
 </body>
