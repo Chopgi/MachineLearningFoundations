@@ -57,7 +57,7 @@
             }
         }
 
-        //document.getElementById("predictButton").addEventListerner("click", predictLetter);
+
 
         let grid = new Array(16).fill(0);
 
@@ -80,7 +80,7 @@
                     button.onclick = (function(i) {
                         return function() {
                             grid[i] = grid[i] === 1 ? 0 : 1;
-                            render();
+                            renderGrid();
                             
                         };
                     })(index);
@@ -92,6 +92,7 @@
             document.getElementById("buttonGrid").appendChild(table);
         }
         renderGrid();
+        document.getElementById("predictButton").addEventListerner("click", predictLetter);        
       //still needs dropdown, allowing you to choose T or L?
     </script>
 </body>
