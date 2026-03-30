@@ -18,13 +18,17 @@
     <p id="output"></p>
 
     <script>
+        //Importing weights & bias (trained on only upright capital Ts and Ls)
         importedWeights = [2.00000000e-02, -1.00000000e-02, 3.10000000e-01, 6.00000000e-02, -7.00000000e-02, 1.70000000e-01, 2.80000000e-01, -1.60000000e-01, 2.20000000e-01, 9.00000000e-02, 1.90000000e-01, -1.00000000e-02, -4.00000000e-02, -3.46944695e-18, 2.00000000e-01, -5.40000000e-01]
         bias = -0.46000000000000024;
 
+        //Defining activation function
         function activation_function(z) {
             return z >= 0 ? 1 : 0;
         }
 
+        //Defining prediction function/logic without numpy (going through multiplying each input[i] by each weight[i], then summing them, before inputting them into the activation function)
+        //Set linear_product_p to bias in order to add it through addition assignment (+=)
         function predict(inputs) {
             let linear_product_p = bias;
             for (let i =0; i < inputs.length; i++){
@@ -34,14 +38,18 @@
             return y_pred
         }        
 
+        //Defining function to predict a letter from user input, using the previous predict function
+        //If the result of the activation function is 1, predict T. All other results, predict L
         function predictLetter(input) {
             const predictedResult = predict(input);
             const predictedLetter = predictedResult === 1 ? "T" : "L";
             document.getElementById("output").innerHTML = `Prediction: ${predictedLetter}`;
         }
 
+        //Creating array for user input (4x4= length of 16 [indexes of 0-15])
         let grid = new Array(16).fill(0);
 
+        //defining function & logic to create and display the grid of 4x4 interactable buttons. Each button displays their corrisponding value in the user array, which is modified upon a button being pressed (which also re-renders the entire grid).
         function renderGrid() {
             document.getElementById("buttonGrid").innerHTML = "";
             const table = document.createElement("table");
@@ -55,8 +63,8 @@
                     const index = row * 4 + column;
                     const tableCell = document.createElement("td");
                     const button = document.createElement("button");
-                    button.textContent = grid[index]; //to fill button's text with its corresponding 1 or 0 value
-                    button.className = "gridcell";
+                    button.textContent = grid[index]; //Fill button's text with its corresponding 1 or 0 value
+                    button.className = "gridcell"; //Set each button's formatting style to that defined by the "gridcell" class in the style tags located in the header. 
 
                     button.onclick = (function(i) {
                         return function() {
@@ -72,7 +80,8 @@
             document.getElementById("buttonGrid").appendChild(table);
         }
         
-        renderGrid();
+        renderGrid(); //Render the button grid for the first time
+        //Logic for when the prdiction button is pressed, predict a letter.
         document.getElementById("predictButton").onclick = function(){
             (predictLetter(grid));
         };
