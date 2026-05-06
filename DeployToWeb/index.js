@@ -1,7 +1,5 @@
-// index.js – Housing price predictor using DLnet_housingData.onnx
-
 async function runHousingPrediction() {
-  // Read the six input features from the HTML inputs
+  // Read the input features from the HTML
   const features = [
     'housing_median_age',
     'total_rooms',
@@ -15,14 +13,11 @@ async function runHousingPrediction() {
   const tensorX = new ort.Tensor('float32', new Float32Array(features), [1, 6]);
 
   try {
-   
-    const session = await ort.InferenceSession.create(
-      './DLnet_housingData.onnx?v=' + Date.now()
-    );
+    const session = await ort.InferenceSession.create('./DLnet_housingData.onnx?v=' + Date.now());
     const results = await session.run({ input1: tensorX });
     const scaledPred = results.output1.data[0]; // standardized output
 
-    // Restore the actual dollar value using the training set’s mean and std
+    // Restore the actual dollar value using the training set’s mean and std from jupyter notebook file
     const yMean = 206704.0312;
     const yStd  = 115474.7812;
     const actualPrice = scaledPred * yStd + yMean;
