@@ -2,22 +2,41 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Housing Value Predictor (ONNX)</title>
+    <title>Housing Value Predictor</title>
 
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web/dist/ort.min.js"></script>
     <script src="index.js"></script>
 </head>
 <body>
     <h1>Housing Value Predictor</h1>
-    <p>Enter the 6 features below to get the estimated median house value (in dollars).</p>
+    <p>Enter the 6 features regarding housing within a city block (of houses) below to get the estimated median house value (in dollars) for a house within the block.</p>
 
     <div id="prediction-form">
-        <input type="number" id="housing_median_age" placeholder="Median Age (years)">
-        <input type="number" id="total_rooms"       placeholder="Total Rooms">
-        <input type="number" id="total_bedrooms"    placeholder="Total Bedrooms">
-        <input type="number" id="population"        placeholder="Population">
-        <input type="number" id="households"        placeholder="Households">
-        <input type="number" id="median_income"     placeholder="Median Income (tens of thousands)">
+        <div>
+            <label>Median age of Housing (within a block): </label>
+            <input type="number" id="housing_median_age" placeholder="ex: 25">
+        </div>
+        <div>
+            <label>Total Rooms (within the block): </label>
+            <input type="number" id="total_rooms"       placeholder="ex: 1473">
+        </div>        
+        <div>
+            <label>Total Bedrooms (within the block): </label>
+            <input type="number" id="total_bedrooms"    placeholder="ex: 3.5">
+        </div>        
+        <div>
+            <label>Population Count (total of the block): </label>
+            <input type="number" id="population"        placeholder="ex: 1027">
+        </div>        
+        <div>
+            <label>Total Household count (number of households within the block): </label>
+            <input type="number" id="households"        placeholder="ex: 300">
+        </div>                
+        <div>
+            <label>Median Income for Households (in tens of thousands): </label>
+            <input type="number" id="median_income"     placeholder="ex: 3.5">
+        </div>        
+        
         <button onclick="runHousingPrediction()" type="button">Predict Price</button>
     </div>
 
