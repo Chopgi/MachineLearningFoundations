@@ -5,83 +5,22 @@
     <title>Housing Value Predictor (ONNX)</title>
     <!-- ONNX Runtime Web from CDN -->
     <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.17.1/dist/ort.min.js"></script>
+    <script src="index.js"></script>
 </head>
 <body>
     <h1>Housing Value Predictor</h1>
     <p>Enter the 6 features below to get the estimated median house value (in dollars).</p>
 
     <form id="prediction-form">
-        <label>Housing Median Age: <input type="number" id="age" step="any" value="28.0"></label><br>
-        <label>Total Rooms: <input type="number" id="rooms" step="any" value="2500.0"></label><br>
-        <label>Total Bedrooms: <input type="number" id="bedrooms" step="any" value="500.0"></label><br>
-        <label>Population: <input type="number" id="population" step="any" value="1400.0"></label><br>
-        <label>Households: <input type="number" id="households" step="any" value="500.0"></label><br>
-        <label>Median Income: <input type="number" id="income" step="any" value="3.5"></label><br><br>
-        <button type="submit">Predict</button>
+        <input type="number" id="housing_median_age" placeholder="Median Age">
+        <input type="number" id="total_rooms"       placeholder="Total Rooms">
+        <input type="number" id="total_bedrooms"    placeholder="Total Bedrooms">
+        <input type="number" id="population"        placeholder="Population">
+        <input type="number" id="households"        placeholder="Households">
+        <input type="number" id="median_income"     placeholder="Median Income">
+        <button onclick="runHousingPrediction()">Predict Price</button>
     </form>
 
-    <h2>Prediction: <span id="result">___</span></h2>
-    <p id="loading-status">Loading model... please wait.</p>
-
-    <script>
-        let session = null;
-
-        // Load the ONNX model asynchronously
-        async function loadModel() {
-            try {
-                // Create an inferenceSession
-                session = await ort.InferenceSession.create('DLnet_housingData.onnx', {
-                    executionProviders: ['wasm']  // use the WebAssembly backend
-                });
-                document.getElementById('loading-status').innerText = 'Model loaded. Ready for prediction.';
-            } catch (err) {
-                console.error(err);
-                document.getElementById('loading-status').innerText = 'Failed to load model.';
-            }
-        }
-
-        // Run inference when submit button is clicked
-        document.getElementById('prediction-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            if (!session) {
-                alert('Model not loaded yet. Please wait.');
-                return;
-            }
-
-            // Gather user input values
-            const age = parseFloat(document.getElementById('age').value);
-            const rooms = parseFloat(document.getElementById('rooms').value);
-            const bedrooms = parseFloat(document.getElementById('bedrooms').value);
-            const population = parseFloat(document.getElementById('population').value);
-            const households = parseFloat(document.getElementById('households').value);
-            const income = parseFloat(document.getElementById('income').value);
-
-            // Check for invalid input
-            if (isNaN(age) || isNaN(rooms) || isNaN(bedrooms) || isNaN(population) || isNaN(households) || isNaN(income)) {
-                alert('Please enter valid numbers for all fields.');
-                return;
-            }
-
-            // Prepare input tensor
-            const inputData = new Float32Array([age, rooms, bedrooms, population, households, income]);
-            const tensor = new ort.Tensor('float32', inputData, [1, 6]);
-
-            // Run inference
-            const feeds = { 'input1': tensor };
-            try {
-                const results = await session.run(feeds);
-                const prediction = results.output1.data[0];
-                // Format as dollars (rounded to nearest integer)
-                const formatted = `$${Math.round(prediction).toLocaleString()}`;
-                document.getElementById('result').innerHTML = formatted;
-            } catch (err) {
-                console.error(err);
-                document.getElementById('result').innerHTML = 'Error during prediction';
-            }
-        });
-
-        // Load the model when page is loaded
-        loadModel();
-    </script>
+    <p id="predictionResult"></p>
 </body>
 </html>
